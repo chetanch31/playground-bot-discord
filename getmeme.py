@@ -1,9 +1,10 @@
 import praw 
 import random
+from bot_tokens import reddit_client_id, reddit_client_secret
 
 reddit = praw.Reddit(
-        client_id='iVTEsi_caS6DAA' ,
-        client_secret='rrj8GjZ1JZtsNVhssZxZ8k0L5Ig',
+        client_id= reddit_client_id ,
+        client_secret=reddit_client_secret,
         user_agent='pythonpraw' )
 
 def get_dank_meme_list():
