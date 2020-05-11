@@ -48,8 +48,6 @@ class misc_commands(commands.Cog, name="Miscellaneous Commands"):
     @commands.command()
     async def img(self, ctx, *,query):
         '''Search for a image related to your query'''
-        google_api_key = google_api_key
-        custom_cse_id = google_cse_key
         gis = GoogleImagesSearch(google_api_key, custom_cse_id)
         _search_params = {
             'q' : query,
