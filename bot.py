@@ -8,13 +8,9 @@ import getmeme
 import covid_data as cdata
 from google_images_search import GoogleImagesSearch
 from bot_tokens import discord_bot_token, google_api_key, google_cse_key, weather_api_key
+from googletrans import Translator
 
 client = commands.Bot(command_prefix="$")
-
-@client.event
-async def on_ready():
-    print("Bot is ready")
-    await client.change_presence(status=discord.Status.online, activity=discord.Game("Use '$help' for commands"))
 
 @client.event
 async def on_command_error(ctx, error):
@@ -78,6 +74,16 @@ class utility_commands(commands.Cog, name="Useful commands"):
             await ctx.send(resonse)
         except KeyError:
             await ctx.send("**City not found**")
+
+    @commands.command()
+    async def trans(self, ctx, lang, message):
+        '''Translates text into the given language'''
+        translator = Translator()
+        try:
+            tr = translator.translate(message, dest=lang)
+            await ctx.send(tr.text)
+        except ValueError:
+            await ctx.send("An error occured. Please check the language code and try again!")
 
 class meme_commands(commands.Cog, name="Meme Commands"):
     @commands.command()
@@ -143,19 +149,11 @@ class covid_data(commands.Cog, name="Covid Updates"):
         else:
             ctx.send("**No data found for the given country**")
 
-class VoiceCommands(commands.Cog, name="Music Commands"):
-    @commands.command()
-    async def join(self, ctx, *, channel: discord.VoiceChannel):
-        '''Joins a voice channel'''
-        
-        ctx.voice_client.move_to(channel)        
-        await channel.connect(60)
 
+client.add_cog(meme_commands(client))
+client.add_cog(utility_commands(client))
+client.add_cog(misc_commands(client))
+client.add_cog(covid_data(client))
 
-client.add_cog(meme_commands())
-client.add_cog(utility_commands())
-client.add_cog(misc_commands())
-client.add_cog(covid_data())
-client.add_cog(VoiceCommands())
 
 client.run(discord_bot_token)
