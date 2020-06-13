@@ -83,7 +83,7 @@ class utility_commands(commands.Cog, name="Useful commands"):
             tr = translator.translate(" ".join(message), dest=lang)
             await ctx.send(tr.text)
         except ValueError:
-            await ctx.send("An error occured. Please check the language code and try again!")
+            await ctx.send("An error occured. Please check the language code and try again! Check language codes: https://cloud.google.com/translate/docs/languages")
 
 class meme_commands(commands.Cog, name="Meme Commands"):
     @commands.command()
