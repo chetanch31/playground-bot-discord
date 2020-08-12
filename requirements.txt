@@ -23,7 +23,7 @@ isort==4.3.21
 lazy-object-proxy==1.4.3
 mccabe==0.6.1
 multidict==4.7.5
-Pillow==6.2.2
+Pillow>=7.1.0
 praw==7.0.0
 prawcore==1.3.0
 protobuf==3.11.3
