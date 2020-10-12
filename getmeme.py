@@ -39,7 +39,7 @@ def dark_joke():
     return rand_joke.title, rand_joke.selftext
 
 def get_dark_meme():
-    subreddit = reddit.subreddit('darkmeme')
+    subreddit = reddit.subreddit('DarkMemesAndHumor')
     hot_sub = subreddit.hot()
     memes = []
     for post in hot_sub:
