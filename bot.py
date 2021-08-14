@@ -13,11 +13,6 @@ from googletrans import Translator
 client = commands.Bot(command_prefix="$")
 
 @client.event
-async def on_command_error(ctx, error):
-    if isinstance(error, commands.CommandNotFound):
-        await ctx.send("Command not found. Use '$help' for a list of avaiable commands.")
-
-@client.event
 async def on_message(message):
     if client.user.mentioned_in(message):
         await message.channel.send("You can type `$help` for more info")
