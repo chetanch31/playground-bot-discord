@@ -12,8 +12,8 @@ from googletrans import Translator
 
 client = commands.Bot(command_prefix="$")
 
-@client.event
-async def on_message(message):
+@client.listen('on_message')
+async def bot_mentioned(message):
     if client.user.mentioned_in(message):
         await message.channel.send("You can type `$help` for more info")
 
@@ -155,5 +155,5 @@ client.add_cog(utility_commands(client))
 client.add_cog(misc_commands(client))
 client.add_cog(covid_data(client))
 
-
+print("Bot is running!")
 client.run(discord_bot_token)

@@ -1,8 +1,15 @@
+import imp
 import os
+from pathlib import Path
+from dotenv import load_dotenv
 
-discord_bot_token = os.environ['client_key']
-google_api_key = os.environ['google_api']
-google_cse_key = os.environ['google_cse']
-weather_api_key = os.environ['weather_api']
-reddit_client_id = os.environ['reddit_client']
-reddit_client_secret = os.environ['reddit_client_secret']
+load_dotenv()
+env_path = Path('.')/'.env'
+load_dotenv(dotenv_path=env_path)
+
+discord_bot_token = os.environ['CLIENT_KEY']
+google_api_key = os.environ['GOOGLE_API']
+google_cse_key = os.environ['GOOGLE_CSE']
+weather_api_key = os.environ['WEATHER_API']
+reddit_client_id = os.environ['REDDIT_CLIENT']
+reddit_client_secret = os.environ['REDDIT_CLIENT_SECRET']
