@@ -1,3 +1,4 @@
+from unittest import async_case
 import discord
 from discord.ext import commands
 import requests
@@ -17,6 +18,45 @@ async def bot_mentioned(message):
     if client.user.mentioned_in(message):
         await message.channel.send("You can type `$help` for more info")
 
+@client.event 
+async def on_command_error(ctx, error): 
+    if isinstance(error, commands.CommandNotFound): 
+        em = discord.Embed()
+        em.title = "Command not found"
+        em.description = "The command you are looking for is not found. Use **$help** to get a list of all available commands."
+        em.color = ctx.author.color
+        await ctx.send(embed=em)
+
+class MusicCommands(commands.Cog, name="Music commands"):
+    @commands.command()
+    async def join(self, ctx):
+        '''Joins a voice channel'''
+        if ctx.author.voice is None:
+            em = discord.Embed()
+            em.description = "You need to join a voice channel first!"
+            em.color = ctx.author.color
+            await ctx.send(embed=em)
+
+        if ctx.voice_client is not None:
+            em = discord.Embed()
+            em.description = "I am already connected to a voice channel!"
+            em.color = ctx.author.color
+            await ctx.send(embed=em)
+
+        channel = ctx.author.voice.channel
+        await channel.connect()
+
+    @commands.command()
+    async def leave(self, ctx):
+        '''Leaves a voice channel'''
+        if ctx.voice_client is None:
+            em = discord.Embed()
+            em.description = "I am not in any voice channel"
+            em.color = ctx.author.color
+            await ctx.send(embed=em)
+
+        await ctx.voice_client.disconnect()
+
 class misc_commands(commands.Cog, name="Miscellaneous Commands"):
     @commands.command()
     async def ask(self, ctx, *,question):
@@ -29,7 +69,7 @@ class misc_commands(commands.Cog, name="Miscellaneous Commands"):
         '''Gives a funny random fml'''
         res = requests.get("https://www.fmylife.com/random")
         soup = BS(res.text)
-        await ctx.send(soup.select_one('.article-link').text)
+        await ctx.send(soup.select_one('.block text-blue-500 my-4 ').text)
 
     @commands.command()
     async def slap(self, ctx, members: commands.Greedy[discord.Member],*, reason="Cuz why not" ):
@@ -149,7 +189,7 @@ class covid_data(commands.Cog, name="Covid Updates"):
         else:
             ctx.send("**No data found for the given country**")
 
-
+client.add_cog(MusicCommands(client))
 client.add_cog(meme_commands(client))
 client.add_cog(utility_commands(client))
 client.add_cog(misc_commands(client))
